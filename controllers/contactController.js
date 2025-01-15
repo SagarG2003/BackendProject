@@ -34,7 +34,13 @@ const updateContact = asyncHandler(async (req, res) => {
 });
 
 const deleteContact = asyncHandler(async (req, res) => {
-    res.status(200).json({message: "Delete a contact"});
+    const contact = await Contacts.findById(req.params.id);
+    if(!contact){
+        res.status(404);
+        throw new Error("Contact not found");
+    }
+    await Contacts.remove();
+    res.status(200).json(contact);
 });
 
 const getContact = asyncHandler(async (req, res) => {
