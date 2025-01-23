@@ -13,7 +13,7 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('Please fill all the fields');
     }
     const userAvailable = await User.findOne({email});
-    if(userAvailable){
+    if(!userAvailable){
         res.status(400);
         throw new Error('User already exists');
     }
@@ -74,7 +74,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //@route GET /api/users/current
 //@access private
 const currentUser = asyncHandler(async (req, res) => {
-    res.json({message: 'Get the current user'});
+    res.json(req.user);
 });
 
 module.exports = {registerUser, loginUser, currentUser};
